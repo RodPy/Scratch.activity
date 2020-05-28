@@ -1,0 +1,10 @@
+[Activity]
+name = Scratch
+bundle_id = edu.mit.media.ScratchActivity
+icon = activity-icon
+activity_version = 3.0
+exec = sugar-activity activity.ScratchLauncher
+license = Scratch 
+mime_types = application/x-scratch-project;application/x-scratch-sprite
+single_instance = yes
+summary = Scratch makes it easy to imagine, design and create your own interactive stories, animations, games, music, and art -- and share your creations on the web.
