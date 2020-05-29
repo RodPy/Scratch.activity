@@ -1,21 +1,24 @@
 import os
 import subprocess
-
-import glib
-import gtk
-
-from sugar.activity.activity import Activity
+import logging
+import gi
 
 
-class ScratchLauncher(Activity):
+from gi.repository import GLib
+from gi.repository import Gtk
+
+from sugar3.activity import activity
+
+
+class ScratchLauncher(activity.Activity):
 
     def __init__(self, handle):
         # Initialize the parent
-        Activity.__init__(self, handle)
+        activity.Activity.__init__(self, handle)
 
         self.max_participants = 1
 
-        hbox = gtk.HBox()
+        hbox = Gtk.HBox()
         self.set_canvas(hbox)
         self.show_all()
         options = ['scratch-desktop', '']
@@ -26,9 +29,9 @@ class ScratchLauncher(Activity):
 
         # Stay alive with a blank window mapped for at least 60 seconds
         # so that the shell knows that we launched
-        glib.timeout_add_seconds(60, gtk.main_quit)
+        Glib.timeout_add_seconds(60, Gtk.main_quit)
         # but get rid of that window if the child exits beforehand
-        glib.child_watch_add(proc.pid, gtk.main_quit)
+        Glib.child_watch_add(proc.pid, Gtk.main_quit)
 
     def get_documents_path(self):
         """Gets the path of the DOCUMENTS folder
@@ -48,7 +51,7 @@ class ScratchLauncher(Activity):
             if os.path.exists(documents_path) and \
                     os.environ.get('HOME') != documents_path:
                 return documents_path
-        except OSError, exception:
+        except (OSError, exception):
             if exception.errno != errno.ENOENT:
                 logging.exception('Could not run xdg-user-dir')
         return None
